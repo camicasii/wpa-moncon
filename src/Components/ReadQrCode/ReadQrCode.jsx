@@ -47,6 +47,7 @@ const ReadQRCode = () => {
               <div className={classes.container} />
 
               <QrReader
+                facingMode="environment"
                 delay={delay}
                 className={classes.previewStyle}
                 onError={handleError}
