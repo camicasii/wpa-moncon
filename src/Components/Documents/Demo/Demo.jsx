@@ -1,5 +1,6 @@
 import React from "react";
 import { useStyles } from "../styled";
+import { useSelector } from 'react-redux';
 import Fab from "@material-ui/core/Fab";
 import IconUse from "../../../Assets/svg/IconUse";
 import { Link } from "react-router-dom";
@@ -16,6 +17,9 @@ const Demo = () => {
       history.goBack();
     }
   };
+
+  const mobile = useSelector((state) => state.UserReducer.mobile)
+
   return (
     <>
       <div className={classes.contentMenu}>
@@ -28,7 +32,9 @@ const Demo = () => {
 
         <h1 style={{ color: "#ffff" }}>Proof Of ID Credential Demo</h1>
       </div>
-      <div className={classes.contentWarningDemo}>
+
+      {mobile.status === false ? (
+   <div className={classes.contentWarningDemo}>
         <div style={{ marginLeft: "15px", marginTop: "12px" }}>
           <IconWarning />
         </div>
@@ -43,6 +49,8 @@ const Demo = () => {
         </div>
       </div>
 
+      ) : null}
+   
 
       <h1 className={classes.titleH1}>Issued by</h1>
       <div style={{ marginTop: "15px" }} >
@@ -54,8 +62,8 @@ const Demo = () => {
             <div  className={classes.issuedSubtitle}>
               Mobile Phone
             </div>
-            <Link to="https://www.jolocom.io" className={classes.link}>
-              https://www.jolocom.io
+            <Link to="https://www.moncon.co" className={classes.link}>
+              https://www.moncon.co
             </Link>
           </div>
         </div>
@@ -74,7 +82,7 @@ const Demo = () => {
               Message
             </div>
             <p className={classes.documentsMessage}>
-              +58 424-222-22-22  
+              {mobile.value}
             </p>
           </div>
         </div>

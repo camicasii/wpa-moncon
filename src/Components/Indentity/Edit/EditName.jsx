@@ -4,7 +4,7 @@ import { Container, TextField, Button } from "@material-ui/core";
 import { useStyles } from "./style";
 import { useHistory } from 'react-router';
 import ArrowLeft from "../../../Assets/svg/ArrowLeft";
-
+import toast, { Toaster } from 'react-hot-toast';
 const EditName = () => {
   const classes = useStyles();
   const [name, setName ] = useState('');
@@ -23,6 +23,7 @@ const EditName = () => {
   }
 
   const handleClick = (event) => {
+ event.preventDefault();
  dispatchUserData({ 
   type: 'update',
   payload: { id: 'name', value: name }
@@ -33,7 +34,11 @@ dispatchUserData({
   payload: { id: 'lastName', value: lastName }
 })
 
-    return history.push('/identity')
+      setTimeout(()=>{
+ return history.push('/identity')
+
+      },2500)
+   toast.success('Has been added successfully');
   };
 
 
@@ -101,6 +106,8 @@ className={classes.buttonBlue}
                     >
                         ADD CLAIM
                     </Button>
+<Toaster  toastOptions={{duration: 1000}}/>
+
         </Container>
       </div>
     </>

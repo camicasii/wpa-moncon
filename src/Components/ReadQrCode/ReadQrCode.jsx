@@ -1,19 +1,16 @@
 import { useState } from "react";
-import { Grid, Container, Typography } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 import { useStyles } from "./style";
 import QrReader from "react-qr-scanner";
-import Checkbox from "@material-ui/core/Checkbox";
-import Fab from "@material-ui/core/Fab";
-import IconUse from ".././../Assets/svg/IconUse";
-import Link from "../Link";
-import clsx from "clsx";
+
+import ScanReceive from "./ScanReceive";
 
 const ReadQRCode = () => {
   const classes = useStyles();
   const [QrResponse, setQrResponse] = useState("");
   //this is the delay between each scan
   const delay = 400;
-
+  const [selfie] = useState(false);
   const handleError = err => {
     //console.log(err);
     alert(err);
@@ -37,7 +34,7 @@ const ReadQRCode = () => {
               style={{
                 position: "relative",
                 width: "100%",
-                paddingTop: "100%"
+                paddingTop: "180%"
               }}
             >
               <div className={classes.boxShadow}></div>
@@ -47,98 +44,21 @@ const ReadQRCode = () => {
               <div className={classes.container} />
 
               <QrReader
-                facingMode="environment"
                 delay={delay}
                 className={classes.previewStyle}
                 onError={handleError}
                 onScan={handleScan}
-              />
+                facingMode="environment"
+            
+                             />
             </div>
             <Grid container style={{ height: "100px" }} />
           </>
         )}
       </Grid>
       {QrResponse && (
-        <Container>
-          <h1 className={classes.titleH1}>Service</h1>
-          <div style={{ marginTop: "15px" }}>
-            <div className={classes.serviceContainerWhite}>
-              <Fab aria-label="edit" className={classes.fabWhite}>
-                <IconUse />
-              </Fab>
-              <div>
-                <Typography
-                  variant="body1"
-                  className={classes.serviceSubtitleBlack}
-                >
-                  Demo Offline
-                </Typography>
-                <Link
-                  target={"_blank"}
-                  to={QrResponse}
-                  className={classes.link}
-                >
-                  {QrResponse}
-                </Link>
-              </div>
-            </div>
-          </div>
-
-
-
-          <h1 className={classes.titleH1}>
-            Choose one or more documents provided by this service and we will
-            generate them for you.
-          </h1>
-
-
-
-          <div
-            style={{ marginTop: "15px" }}
-            className={classes.serviceContainer}
-          >
-            <div style={{display: 'flex'}}>
-              <Typography variant="body1" className={classes.serviceTitle}>
-                Proof Of ID Credential Demo
-              </Typography>
-              <Checkbox
-                className={classes.root}
-                disableRipple
-                color="default"
-                checkedIcon={
-                  <span className={clsx(classes.icon, classes.checkedIcon)} />
-                }
-                icon={<span className={classes.icon} />}
-                inputProps={{ "aria-label": "decorative checkbox" }}
-              />
-            </div>
-            <div className={classes.contentService}>
-              <Fab
-                style={{ marginLeft: "12px", marginRight: "14px" }}
-                aria-label="edit"
-                className={classes.fab}
-              >
-                <IconUse />
-              </Fab>
-              <div>
-                <Typography variant="body1" className={classes.serviceSubtitle}>
-                  Demo Offline
-                </Typography>
-                <Link  to={QrResponse} className={classes.link}>
-                  {QrResponse}
-                </Link>
-              </div>
-            </div>
-          </div>
-          <div style={{display: 'flex',justifyContent: 'center'}}>
- <div className={classes.buttonBlue}> RECIVE</div>
- <div className={classes.buttonBlack} > DENY</div>
-          </div>
- 
-
-
-        </Container>
-      )}
+        <ScanReceive QrResponse={QrResponse}/>
+             )}
     </Grid>
   );
 };

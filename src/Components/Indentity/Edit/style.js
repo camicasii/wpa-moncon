@@ -37,6 +37,39 @@ export const useStyles = makeStyles((theme) => ({
       fontSize: '1.6rem',
     },
   },
+field: {
+    "& .MuiInputBase-input":{
+      color: '#ffff !important',
+fontSize: '1.8rem !important',
+    },
+     "& label.Mui-focused": {
+      color: focusedColor
+    },
+  
+    "& .MuiInput-underline:after": {
+      borderBottomColor: focusedColor
+    },
+     "& .MuiInput-underline:before": {
+      borderBottomColor: focusedColor
+    },
+    "& .MuiFilledInput-underline:after": {
+      borderBottomColor: focusedColor
+    },
+   
+    "& .MuiOutlinedInput-root": {
+      "&.Mui-focused fieldset": {
+        borderColor: focusedColor
+      }
+    },
+    "&.Mui-focused": {
+      color: "rgba(255, 255, 255, 0.74)"
+    },
+    "& .MuiFormLabel-root": {
+      color: "rgba(255, 255, 255, 0.74)",
+      fontSize: '1.6rem',
+    },
+
+  },
 
   return:{
     color: '#ffff', 
@@ -96,15 +129,15 @@ export const useStyles = makeStyles((theme) => ({
     color: '#ffff',
   },
   input: {
-    fontSize: '1.8rem',
-    lineHeight: '24px',
-    width: '100%',
-    color: "#ffff",
+    fontSize: '1.8rem !important',
+    lineHeight: '24px !important',
+    width: '100% !important',
+    color: "#ffff !important",
     "&.Mui-focused": {
-      color: "#ffff"
+      color: "#ffff !important"
     },
     "& .MuiFormLabel-root": {
-      color: "#ffff" // or black
+      color: "#ffff !important" // or black
     }
   }
 

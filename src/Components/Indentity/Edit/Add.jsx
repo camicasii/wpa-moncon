@@ -4,7 +4,7 @@ import { useHistory } from "react-router-dom";
 import { Container, TextField,Button } from "@material-ui/core";
 import { useStyles } from "./style";
 import ArrowLeft from "../../../Assets/svg/ArrowLeft";
-
+import toast, { Toaster } from 'react-hot-toast';
 const EditAdd = () => {
 
   const classes = useStyles();
@@ -22,7 +22,12 @@ const EditAdd = () => {
       status: '',
       }
     });
-    return history.push("/identity");
+    setTimeout(()=>{
+ return history.push('/identity')
+
+      },2500)
+   toast.success('Has been added successfully');
+
   };
 
   const handleReturn = () => {
@@ -88,7 +93,7 @@ className={classes.buttonBlue}
                     >
                         SAVE
                     </Button>
-    
+    <Toaster  toastOptions={{duration: 1500}}/>
         </Container>
       </div>
     </>

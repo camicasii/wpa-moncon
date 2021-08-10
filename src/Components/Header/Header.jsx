@@ -23,6 +23,7 @@ const useStyles = makeStyles((theme) => ({
     background: '#272727',
     color: '#ffff',
     textTransform: 'none'
+
   },
   title: {
     flexGrow: 1,
@@ -37,6 +38,19 @@ const useStyles = makeStyles((theme) => ({
   },
   tabScan: {
     background: '#03DAC5'
+  },
+  tabSelect:{
+     backgroundColor: "#141414 !important",
+   
+   "&:hover": {
+      background: '#141414 !important'
+        },
+        "&$selected": {
+        background: '#141414 !important',
+          "&:hover": {
+         background: '#141414 !important',
+          }
+        }
   },
   appBar: {
     top: 'auto',
@@ -63,9 +77,12 @@ export default function Header() {
             variant="fullWidth"
             className={classes.tabs}     
             aria-label="icon label tabs example"
+        
           >
             
-            <Tab 
+            <Tab
+              classes={{selected: classes.tabSelect}}
+           
               component={Link}
               to="/identity"
               icon={<IconIdentity/>} 
@@ -75,7 +92,8 @@ export default function Header() {
                 </span>
               }
             />
-            <Tab 
+            <Tab
+   classes={{selected: classes.tabSelect}}
               component={Link}
               to="/documents"
               icon={<IconDocuments/>} 
@@ -86,6 +104,7 @@ export default function Header() {
               } 
             />
             <Tab
+
               component={Link} 
               to="/scan" 
               className={classes.tabScan} 
@@ -96,7 +115,8 @@ export default function Header() {
                 </span>
               } 
             />
-            <Tab 
+            <Tab
+   classes={{selected: classes.tabSelect}}
               component={Link} 
               to="/history" 
               icon={<IconHistory/>} 
@@ -106,7 +126,8 @@ export default function Header() {
                 </span>
               } 
             />
-            <Tab 
+            <Tab
+   classes={{selected: classes.tabSelect}}
               component={Link} 
               to="/settings" 
               icon={<IconSettings/>} 

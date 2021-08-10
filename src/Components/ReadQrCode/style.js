@@ -16,6 +16,13 @@ export const useStyles = makeStyles((theme) => ({
 
  },
   },
+fab:{
+    boxShadow: 'none !important',
+    marginLeft: '10px',
+    marginRight: '10px',
+    marginTop: '10px',
+    display: 'flex',
+},
   link:{
   fontSize: '14px',
   lineHeight: '20px',
@@ -51,15 +58,26 @@ export const useStyles = makeStyles((theme) => ({
   },
   serviceContainerWhite:{
     background: '#ffff',
-    boxShadow: 'none !important',
+       boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
    display: 'flex',
     textAlign: 'left',
     flexDirection: 'row',
     padding: '10px 10px'
   },
-
+  appBar: {
+    position: 'fixed',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    backgroundColor: '#141414',
+    textAlign: 'center',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    zIndex: 1100,
+  },
   boxShadow:{
-    top: '0px',
+    top: '15vh',
     left: '0px',
     zIndex: 20,
     boxSizing: 'border-box',
@@ -73,10 +91,35 @@ export const useStyles = makeStyles((theme) => ({
  "@media screen and (max-width: 800px)": {
   width: '100%',
    display: 'block',
-    height: '100%',
+    height: '60%',
 
  },
   },
+  add:{
+    color: '#03DAC5',
+    fontSize: '1.6rem',
+    "@media screen and (max-width: 800px)": {
+      fontSize: '1.4rem',
+  
+    },
+  },
+contentPersonal:{
+    margin: '0px 90px',
+    marginTop: '3px',
+    background: '#ffff',
+    display: 'flex',
+    textAlign: 'left',
+    flexDirection: 'row',
+    boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+    "@media screen and (max-width: 800px)": {
+        margin: '0px 0px',
+        marginTop: '3px',
+        background: '#ffff',
+        display: 'flex',
+        textAlign: 'left',
+        flexDirection: 'row',
+    },
+},
   boxtext:{
       alignItems: "center",
           display: "flex",
@@ -148,11 +191,11 @@ flexGrow: 1
 
   },
 buttonBlue: {
-    margin: "30px 10px",
+    margin: "30px 0px",
     borderRadius: "4px",
     fontSize: "14px",
     fontWeight: 600,
-    padding: "12px 41px 14px",
+    padding: "12px 51px 14px",
     background: "#03DAC5",
     color: "#fff",
     cursor: "pointer",
@@ -170,6 +213,7 @@ buttonBlack: {
     background: "#141414",
     color: "#fff",
     cursor: "pointer",
+    border: '2px solid #fff !important',
 '&:hover': {
   opacity: '.8',
             boxShadow: 'none',
@@ -194,6 +238,26 @@ icon: {
       background: 'rgba(206,217,224,.5)',
     },
   },
+titleName: {
+    color: 'rgba(0, 0, 0, 0,1)',
+    fontWeight: 400,
+    fontSize: '1.6rem',
+    lineHeight: '16px',
+},
+name: {
+    fontSize: '2.1rem',
+    lineHeight: '24px',
+    letter: '0.15px',
+    fontWeight: 400,
+    wordBreak: 'break-all',
+    color: 'black !important',
+    "@media screen and (max-width: 800px)": {
+        fontSize: '1.6rem',
+        lineHeight: '24px',
+        letter: '0.15px',
+    },
+},
+
   checkedIcon: {
     backgroundColor: '#00C4B4',
     backgroundImage: 'linear-gradient(180deg,hsla(0,0%,100%,.1),hsla(0,0%,100%,0))',

@@ -1,11 +1,14 @@
 import { useEffect, lazy, Suspense } from 'react';
-import { Route, Switch, useLocation } from 'react-router-dom';
+import { Route, Switch, useLocation, useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux'
 import Header from './Components/Header'
 import { NOT_DISPAY_HEADER_IN, LS_USER_KEY  } from './Const';
 import { ContextProvider } from './AppContext';
 import './App.css';
-
+import ScanReceive from './Components/ReadQrCode/ScanReceive';
+import ScanAuth from './Components/ReadQrCode/ScanAuth';
+import ScanShare from './Components/ReadQrCode/ScanShare';
+import SwUpdater from './SwUpdater'
 const ReactLazyPreload = (importStatement) => {
   const Component = lazy(importStatement);
   Component.preload = importStatement;
@@ -30,6 +33,24 @@ function App() {
 
   const location = useLocation();
   const dispatch = useDispatch(); 
+  const history = useHistory();
+
+  useEffect(() => {
+    history.listen((location, action) => {
+      // check for sw updates on page change
+      navigator.serviceWorker
+        .getRegistrations()
+        .then((regs) => regs.forEach((reg) => reg.update()));
+    });
+  }, []);
+
+  const handleUpdateServiceWorker = () => {
+    navigator.serviceWorker
+      .getRegistrations()
+      .then((regs) => regs.forEach((reg) => {
+        reg.waiting.postMessage({ type: "SKIP_WAITING" });
+      }));
+  };
 
   useEffect(() => {
     const lsData = JSON.parse(localStorage.getItem(LS_USER_KEY));
@@ -44,6 +65,9 @@ function App() {
   return (
  
     <div>
+  <div id='new-updates'>
+    <SwUpdater onClick={handleUpdateServiceWorker}/>     
+  </div>
       <Switch>
         <ContextProvider value={{
           EditName,
@@ -123,6 +147,21 @@ function App() {
           <Route exact path="/settings" >
             <Suspense fallback={<div>Loading...</div>}>
               <Settings/>
+            </Suspense>
+          </Route>
+  <Route exact path="/scan/recive" >
+            <Suspense fallback={<div>Loading...</div>}>
+              <ScanReceive/>
+            </Suspense>
+          </Route>
+  <Route exact path="/scan/auth" >
+            <Suspense fallback={<div>Loading...</div>}>
+              <ScanAuth/>
+            </Suspense>
+          </Route>
+<Route exact path="/scan/share" >
+            <Suspense fallback={<div>Loading...</div>}>
+              <ScanShare/>
             </Suspense>
           </Route>
 

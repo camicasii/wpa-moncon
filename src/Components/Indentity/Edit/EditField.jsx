@@ -5,7 +5,7 @@ import { Container, TextField,Button } from "@material-ui/core";
 import { useStyles } from "./style";
 import ArrowLeft from "../../../Assets/svg/ArrowLeft";
 import { useParams } from 'react-router-dom';
-
+import toast, { Toaster } from 'react-hot-toast';
 
 
 
@@ -24,6 +24,7 @@ const { fieldId } = useParams();
   const field = dynamycFields.find(field => field.id === fieldId) 
  console.log(field);
   const handleClick = event => {
+ event.preventDefault();
     console.log(title);
     dispatchUserData({
       type: 'update-dynamic-field',
@@ -33,7 +34,11 @@ const { fieldId } = useParams();
       status: '',
       }
     });
-    return history.push("/identity");
+     setTimeout(()=>{
+ return history.push('/identity')
+
+      },2500)
+   toast.success('Has been added successfully');
   };
 
 useEffect(() => {
@@ -103,7 +108,7 @@ className={classes.buttonBlue}
                     >
                         SAVE
                     </Button>
-    
+    <Toaster  toastOptions={{duration: 1000}}/>
         </Container>
       </div>
     </>

@@ -1,16 +1,19 @@
-import { useState } from "react";
-import { useDispatch } from 'react-redux'
+import { useState, useEffect } from "react";
+import { useDispatch,useSelector } from 'react-redux'
 import { Container, TextField,Button } from "@material-ui/core";
 import { useStyles } from "./style";
 import { useHistory } from 'react-router';
 import ArrowLeft from "../../../Assets/svg/ArrowLeft";
+import toast, { Toaster } from 'react-hot-toast';
 const EditDateBirth = (  ) => {
   const classes = useStyles();
   const [dateBirth, setDateBirth ] = useState('');
   const history = useHistory();
   const dispatchUserData  = useDispatch();
+ const datebirthValue = useSelector((state)=> state.UserReducer.datebirth.value);
 
   const handleClick = (event) => {
+  event.preventDefault();
     let payload = {id: 'datebirth'};
     if(dateBirth){
       payload.value = dateBirth;
@@ -19,8 +22,16 @@ const EditDateBirth = (  ) => {
       type: 'update',
       payload,
     })
-    return history.push('/identity')
+       setTimeout(()=>{
+ return history.push('/identity')
+
+      },2500)
+   toast.success('Has been added successfully');
   };
+
+useEffect(() => {
+  setDateBirth(datebirthValue)
+}, [])
 
 
   const handleReturn = () => {
@@ -59,7 +70,7 @@ const EditDateBirth = (  ) => {
             <ArrowLeft /> <p style={{marginLeft:'15px'}}>Return</p>          
           </div>
           <h1 className={classes.title}>Date Birth</h1>
-          <form className={classes.root} noValidate autoComplete="off">
+          <form onSubmit={handleClick} className={classes.root} noValidate autoComplete="off">
             <TextField
               style={{ marginTop: "20px" }}
               type="date"
@@ -71,9 +82,8 @@ const EditDateBirth = (  ) => {
               id="standard-secondary"
               
             />
-          </form>
-
-        <Button onClick={handleClick}
+            <br/>
+   <Button onClick={handleClick}
 className={classes.buttonBlue}
                       variant="contained"
                       color="primary"
@@ -82,6 +92,10 @@ className={classes.buttonBlue}
                     >
                         ADD CLAIM
                     </Button>
+<Toaster  toastOptions={{duration: 1000}}/>
+          </form>
+
+     
         </Container>
       </div>
     </>

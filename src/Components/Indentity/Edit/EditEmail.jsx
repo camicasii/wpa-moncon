@@ -1,24 +1,38 @@
-import { useState } from "react";
-import { useDispatch } from 'react-redux'
-import { Container, TextField,Button } from "@material-ui/core";
+import { useState,useEffect } from "react";
+import { useDispatch, useSelector } from 'react-redux'
+import { Container,Button } from "@material-ui/core";
 import { useStyles } from "./style";
 import { useHistory } from 'react-router';
 import ArrowLeft from "../../../Assets/svg/ArrowLeft";
-
+import { ValidatorForm, TextValidator} from 'react-material-ui-form-validator';
+import toast, { Toaster } from 'react-hot-toast';
 const EditEmail = () => {
   const classes = useStyles();
   const [email, setEmail ] = useState('');
   const history = useHistory();
   const dispatchUserData  = useDispatch();
-
+  const emailValue = useSelector((state)=> state.UserReducer.email.value)
   const handleClick = (event) => {
-  
-    dispatchUserData({
+     event.preventDefault();
+let filter = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    if(!filter.test(email)){
+     console.log(email);
+    } else {
+  dispatchUserData({
       type: 'update',
       payload: {id: 'email', value: email },
     })
-    return history.push('/identity')
-  };
+      setTimeout(()=>{
+ return history.push('/identity')
+
+      },2500)
+   toast.success('Has been added successfully');
+    }
+    };
+
+useEffect(() => {
+  setEmail(emailValue)
+}, [])
 
 
   const handleReturn = () => {
@@ -57,8 +71,8 @@ const EditEmail = () => {
             <ArrowLeft /> <p style={{marginLeft:'15px'}}>Return</p>          
           </div>
           <h1 className={classes.title}>Email</h1>
-          <form className={classes.root} noValidate autoComplete="off">
-            <TextField
+          <ValidatorForm className={classes.root} onSubmit={handleClick} noValidate autoComplete="off"    onError={errors => console.log(errors)}>
+            <TextValidator
               style={{ marginTop: "20px" }}
               InputProps={{
                 className: classes.input
@@ -68,11 +82,14 @@ const EditEmail = () => {
               onChange={(event) => setEmail(event.target.value)}
               id="standard-secondary"
               label="Email"
+   validators={['required', 'isEmail']}
+                    errorMessages={['this field is required', 'email is not valid']}
             />
-          </form>
 
-        <Button onClick={handleClick}
-className={classes.buttonBlue}
+
+            <br/>
+   <Button onClick={handleClick}
+className={classes.buttonBlue} 
                       variant="contained"
                       color="primary"
                       type="submit"
@@ -80,6 +97,10 @@ className={classes.buttonBlue}
                     >
                         ADD CLAIM
                     </Button>
+<Toaster  toastOptions={{duration: 1000}}/>
+          </ValidatorForm>
+
+     
         </Container>
       </div>
     </>

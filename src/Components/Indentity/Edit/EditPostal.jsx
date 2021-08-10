@@ -4,7 +4,13 @@ import { Container, TextField } from "@material-ui/core";
 import { useHistory } from 'react-router';
 import { useStyles } from "./style";
 import ArrowLeft from "../../../Assets/svg/ArrowLeft";
-
+import FormControl from "@material-ui/core/FormControl";
+import InputLabel from "@material-ui/core/InputLabel";
+import Select from "@material-ui/core/Select";
+import MenuItem from "@material-ui/core/MenuItem";
+import toast, { Toaster } from 'react-hot-toast';
+import countries from '../../../Data/countries'
+import {Button} from "@material-ui/core";
 const EditPostal = () => {
 
   const classes = useStyles();
@@ -18,6 +24,7 @@ const EditPostal = () => {
   const dispatchUserData = useDispatch();
 
   const handleClick = (event) => {
+  event.preventDefault();
     let payload = {value:{}, id: 'postal'};
     if(addressLine1.trim()){
       payload.value.addressLine1 = addressLine1.trim();
@@ -42,7 +49,11 @@ const EditPostal = () => {
       type: 'update',
       payload,
     })
-    return history.push('/identity')
+     setTimeout(()=>{
+ return history.push('/identity')
+
+      },2500)
+   toast.success('Has been added successfully');
   };
   
   const handleReturn = () => {
@@ -81,7 +92,50 @@ const EditPostal = () => {
           <ArrowLeft /> <p style={{marginLeft:'15px'}}>Return</p>    
         </div>
         <h1 className={classes.title}>Postal Address</h1>
-        <form className={classes.root} noValidate autoComplete="off">
+        <form onSubmit={handleClick} className={classes.root} noValidate autoComplete="off">
+ <FormControl  style={{margin: '30px 0px'}}>
+        <InputLabel className={classes.field} id="demo-simple-select-label">Country</InputLabel>
+          <Select  inputClass={classes.field} style={{width: '230px'}}
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"
+          value={country}
+ onChange={(event) => setCountry(event.target.value)}
+      
+        >
+          {countries.map((country) => (
+            <MenuItem className={classes.field}
+              value={country.countryName}
+              key={country.countryShortCode}
+            >
+              {country.countryName}
+            </MenuItem>
+          ))}
+        </Select>
+ </FormControl>
+          <br/> 
+      <FormControl >
+        <InputLabel id="demo-simple-select-label">Region</InputLabel>
+        <Select className={classes.formControl} style={{width: '230px'}}
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"
+          value={city}
+   onChange={(event) => setCity(event.target.value)}
+          disabled={!country}
+        >
+          {country
+            ? countries
+                .find(({ countryName }) => countryName === country)
+                .regions.map((region) => (
+                  <MenuItem    InputProps={{
+              className: classes.input
+            }}  value={region.name} key={region.shortCode}>
+                    {region.name}
+                  </MenuItem>
+                ))
+            : []}
+        </Select>
+      </FormControl>
+          <br/>
           <TextField 
             style={{marginTop: '20px'}}  
             InputProps={{
@@ -114,35 +168,23 @@ const EditPostal = () => {
             id="standard-secondary" 
             label="Postal Code"  
           />
+        
+         
           <br/>
-          <TextField 
-            style={{marginTop: '20px'}}  
-            InputProps={{
-              className: classes.input
-            }} 
-            value={city}
-            onChange={(event) => setCity(event.target.value)}
-            id="standard-secondary" 
-            label="City"
-          />
-          <br/>
-          <TextField 
-            style={{marginTop: '20px'}}
-            InputProps={{
-              className: classes.input
-            }} 
-            value={country}
-            onChange={(event) => setCountry(event.target.value)}
-            id="standard-secondary" 
-            label="Country"
-          />
-
+        
+                  
+ <Button onClick={handleClick}
+className={classes.buttonBlue}
+                      variant="contained"
+                      color="primary"
+                      type="submit"
+                
+                    >
+                        ADD CLAIM
+                    </Button>
+<Toaster  toastOptions={{duration: 1000}}/>
         </form>
-        <div 
-        className={classes.buttonBlue}  
-        onClick={handleClick}> 
-          ADD CLAIM
-        </div>
+      
       </Container> 
     </div>
   </>
