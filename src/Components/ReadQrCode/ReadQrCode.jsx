@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Grid } from "@material-ui/core";
 import { useStyles } from "./style";
-import QrReader from "react-qr-scanner";
+import QrReader from "react-qr-reader";
 
 import ScanReceive from "./ScanReceive";
 
