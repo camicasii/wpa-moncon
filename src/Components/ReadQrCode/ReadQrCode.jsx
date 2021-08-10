@@ -19,7 +19,7 @@ const ReadQRCode = () => {
   const handleScan = data => {
     if (data) {
       console.log(data);
-      return setQrResponse(data.text);
+      return setQrResponse(data);
     }
 
     // console.error('QrResponse is null', data);
