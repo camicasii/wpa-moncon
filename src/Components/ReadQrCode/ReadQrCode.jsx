@@ -18,7 +18,7 @@ const ReadQRCode = () => {
 
   const handleScan = data => {
     if (data) {
-      // console.log(data);
+      console.log(data);
       return setQrResponse(data.text);
     }
 
@@ -48,8 +48,6 @@ const ReadQRCode = () => {
                 className={classes.previewStyle}
                 onError={handleError}
                 onScan={handleScan}
-                facingMode="environment"
-            
                              />
             </div>
             <Grid container style={{ height: "100px" }} />
