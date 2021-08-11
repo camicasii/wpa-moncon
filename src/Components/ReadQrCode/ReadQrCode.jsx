@@ -31,9 +31,8 @@ const ReadQRCode = ({socket}) => {
 
   const handleScan = data => {
     if (data) {
-      
+      console.log(data);
       const dataParse = JSON.parse(data)
-      console.log(dataParse);      
       const validate = localStorage.hasOwnProperty(dataParse.request)
       if(!validate) return alert('credential fail')      
       setQrResponse(dataParse);           
