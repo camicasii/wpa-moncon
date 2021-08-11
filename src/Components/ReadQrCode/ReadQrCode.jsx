@@ -30,6 +30,8 @@ const ReadQRCode = ({socket}) => {
   };
 
   const handleScan = data => {
+    try {
+      
     if (data) {
       console.log(data);
       const dataParse = JSON.parse(data)
@@ -38,8 +40,13 @@ const ReadQRCode = ({socket}) => {
       setQrResponse(dataParse);           
       return       
     }
+  }catch(error){
+    console.log(error.message);
+    setQrResponse({});           
+  }
   }    
   useEffect(() => {    
+    console.log();
     if(Object.keys(QrResponse).length > 0)
     setQrScan(true)
   }, [QrResponse])
