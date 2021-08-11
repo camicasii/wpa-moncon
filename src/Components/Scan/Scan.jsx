@@ -63,7 +63,7 @@ const [display, setDisplay] = useState(false)
   };
 
   useEffect(() => {
-    socketRef.current = io('localhost:8080');    
+    socketRef.current = io(process.env.REACT_APP_MONCON_URL_SOCKET);    
     socketRef.current.on('connect', () => {        
       console.log(socketRef.current.id);
       
