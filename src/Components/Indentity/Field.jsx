@@ -48,7 +48,7 @@ export default function Field({ to, path, title, field }) {
 
     useEffect(() => {
       if (data) {
-        localStorage.setItem(`credential_${state}`, JSON.stringify(data));
+        localStorage.setItem(`credential_${field}`, JSON.stringify(data));
    toast.success('Verified credential');
       }
 
@@ -57,7 +57,7 @@ export default function Field({ to, path, title, field }) {
 
 
 
-const hasCredentials = localStorage.hasOwnProperty(`credential_${state}`) || Boolean(data)
+const hasCredentials = localStorage.hasOwnProperty(`credential_${field}`) || Boolean(data)
 
 
 

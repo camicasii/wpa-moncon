@@ -10,10 +10,11 @@ import clsx from "clsx";
 
 import ScanAuth from "./ScanAuth";
 
-const ScanReceive = ({ QrResponse }) => {
+const ScanReceive = ({ QrResponse,socket }) => {
   const classes = useStyles();
   const history = useHistory();
   const [receive, setReceive] = useState(false);
+  
   const handleReturn = () => {
     if (history.length <= 2) {
       history.push("/identity");
@@ -22,6 +23,24 @@ const ScanReceive = ({ QrResponse }) => {
     }
   };
   const handleClick = () => {
+    let  data={
+      idProvider: "ClGLRW0zOt62BUywAAA5",
+      idUser: socket.current.id,
+      hostnama:"localhost",
+      request:"credential_birthday"
+      }  
+
+
+  const validate = localStorage.hasOwnProperty(data.request)
+
+  if(!validate) return alert('credential fail')
+  const credential = JSON.parse(localStorage.getItem(data.request))
+  data.credential =credential
+  
+  
+    
+  socket.current.emit('webCredentialRequest', data);
+    
     setReceive(!receive);
   };
   return (

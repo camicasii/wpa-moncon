@@ -8,6 +8,7 @@ import './App.css';
 import ScanReceive from './Components/ReadQrCode/ScanReceive';
 import ScanAuth from './Components/ReadQrCode/ScanAuth';
 import ScanShare from './Components/ReadQrCode/ScanShare';
+import toast, { Toaster } from 'react-hot-toast';
 import SwUpdater from './SwUpdater'
 const ReactLazyPreload = (importStatement) => {
   const Component = lazy(importStatement);
@@ -66,6 +67,7 @@ function App() {
  
     <div>
   <div id='new-updates'>
+    <Toaster  toastOptions={{duration: 3000,style:{fontSize: '1.6rem'}}}/>
     <SwUpdater onClick={handleUpdateServiceWorker}/>     
   </div>
       <Switch>

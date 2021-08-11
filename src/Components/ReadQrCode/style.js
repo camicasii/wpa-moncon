@@ -16,6 +16,12 @@ export const useStyles = makeStyles((theme) => ({
 
  },
   },
+  contentMenu:{
+    background: '#272727 !important',
+    display: 'flex !important',
+    width: '100% !important',
+
+  },
 fab:{
     boxShadow: 'none !important',
     marginLeft: '10px',

@@ -8,9 +8,9 @@ import Link from "../Link";
 
 import Check from "../../Assets/svg/Check";
 import IconEdit from "../../Assets/svg/IconEdit";
-import { useSelector } from "react-redux";
+import toast, { Toaster } from 'react-hot-toast';
 
-const ScanShare = ({ QrResponse }) => {
+const ScanShare = ({ QrResponse,socket,data }) => {
   const classes = useStyles();
   const history = useHistory();
   const handleReturn = () => {
@@ -19,12 +19,23 @@ const ScanShare = ({ QrResponse }) => {
     } else {
       history.goBack();
     }
-  };
-  const email = useSelector(state => state.UserReducer.email.value);
+  };  
 
+
+  const handleClick = () => {          
+  let  data = QrResponse
+  const credential = JSON.parse(localStorage.getItem(data.request))
+  data.idUser=socket.current.id
+  data.credential =credential
+  socket.current.emit('webCredentialRequest', data);
+  
+  return handleReturn()
+  
+
+};
   return (
     <>
-      <Container>
+      <Container>  
         <h1 className={classes.titleH1}>Service</h1>
         <div style={{ marginTop: "15px" }}>
           <div className={classes.serviceContainerWhite}>
@@ -36,11 +47,8 @@ const ScanShare = ({ QrResponse }) => {
                 variant="body1"
                 className={classes.serviceSubtitleBlack}
               >
-                Demo Offline
-              </Typography>
-              <Link target={"_blank"} to={QrResponse} className={classes.link}>
-                {QrResponse}
-              </Link>
+                {QrResponse.hostnama}
+              </Typography>              
             </div>
           </div>
         </div>
@@ -49,9 +57,7 @@ const ScanShare = ({ QrResponse }) => {
           This service is asking you to share the following claims:
         </h1>
         <div className={classes.contentPersonal}>
-          <Fab
-            component={Link}
-            to="/identity/edit/email"
+          <Fab                        
             color="secondary"
             aria-label="edit"
             className={classes.fab}
@@ -67,12 +73,7 @@ const ScanShare = ({ QrResponse }) => {
             }}
           >
             <div>
-              <p className={classes.titleName}>Email</p>
-              <Link to="/identity/edit/email">
-                <h1 className={classes.name}>
-                  {email || <span className={classes.add}>+ add</span>}
-                </h1>
-              </Link>
+              <p className={classes.titleName}>{QrResponse.request}</p>              
             </div>
             <div
               style={{
@@ -90,7 +91,7 @@ const ScanShare = ({ QrResponse }) => {
 
         <div className={classes.appBar}>
           <div style={{ display: "flex", justifyContent: "center" }}>
-            <div className={classes.buttonBlue}> SHARE CLAIMS</div>
+            <div className={classes.buttonBlue} onClick={handleClick} > SHARE CLAIMS</div>
             <div className={classes.buttonBlack} onClick={handleReturn}>
               {" "}
               DENY

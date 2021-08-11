@@ -6,7 +6,8 @@ export const NOT_DISPAY_HEADER_IN = [
 	'/identity/edit/add',  
   '/scan/recive',
   '/scan/auth',
-  '/scan/share'
+  '/scan/share',
+  '/scan',
 ]
 
 export const LS_USER_KEY = 'smartwallet-pwa-provitional-key';
