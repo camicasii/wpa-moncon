@@ -39,6 +39,7 @@ const ReadQRCode = ({socket}) => {
       const validate = localStorage.hasOwnProperty(dataParse.request)
       if(!validate) {
       addToast('Credential Fail', { appearance: 'error',autoDismiss: true, autoDismissTimeout: 4000 })    
+      return
       }
       setQrResponse(dataParse);  
     addToast('Correct QR code', { appearance: 'success',autoDismiss: true, autoDismissTimeout: 3000 }); 
