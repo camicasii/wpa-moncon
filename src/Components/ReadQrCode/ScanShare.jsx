@@ -15,8 +15,13 @@ const ScanShare = ({ QrResponse,socket,data }) => {
   const history = useHistory();
   const { addToast } = useToasts();
   
-  const handleReturn = () => {
+  const handleDeny = () => {
     addToast('Deny', { appearance: 'error',autoDismiss: true, autoDismissTimeout: 3000 })    
+    return handleReturn()  
+    
+  };  
+
+  const handleReturn = () => {   
     
     if (history.length <= 2) {
       history.push("/identity");
@@ -24,7 +29,6 @@ const ScanShare = ({ QrResponse,socket,data }) => {
       history.goBack();
     }
   };  
-
 
   const handleClick = () => {          
   let  data = QrResponse
@@ -97,7 +101,7 @@ const ScanShare = ({ QrResponse,socket,data }) => {
         <div className={classes.appBar}>
           <div style={{ display: "flex", justifyContent: "center" }}>
             <div className={classes.buttonBlue} onClick={handleClick} > SHARE CLAIMS</div>
-            <div className={classes.buttonBlack} onClick={handleReturn}>
+            <div className={classes.buttonBlack} onClick={handleDeny}>
               {" "}
               DENY
             </div>
