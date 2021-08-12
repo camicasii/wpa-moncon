@@ -8,12 +8,13 @@ import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
-import toast, { Toaster } from 'react-hot-toast';
-import countries from '../../../Data/countries'
+import { useToasts } from 'react-toast-notifications';
+import DataCountries from '../../../Data/countries'
 import {Button} from "@material-ui/core";
 const EditPostal = () => {
 
   const classes = useStyles();
+  const { addToast } = useToasts();
   const [addressLine1, setAddressLine1 ] = useState('');
   const [addressLine2, setAddressLine2 ] = useState('');
   const [postalCode, setPostalCode ] = useState('');
@@ -45,6 +46,10 @@ const EditPostal = () => {
       payload.value.address = `${addressLine1.trim()} ${addressLine2.trim()} ${city} ${country}`.trim();
     }
 
+    
+    if(localStorage.hasOwnProperty('credential_address'))
+    localStorage.removeItem("credential_address");
+
     dispatchUserData({
       type: 'update',
       payload,
@@ -53,7 +58,7 @@ const EditPostal = () => {
  return history.push('/identity')
 
       },2500)
-   toast.success('Has been added successfully');
+     addToast('Has been added successfully', { appearance: 'success',autoDismiss: true, autoDismissTimeout: 2000 });
   };
   
   const handleReturn = () => {
@@ -102,7 +107,7 @@ const EditPostal = () => {
  onChange={(event) => setCountry(event.target.value)}
       
         >
-          {countries.map((country) => (
+          {DataCountries.map((country) => (
             <MenuItem className={classes.field}
               value={country.countryName}
               key={country.countryShortCode}
@@ -123,7 +128,7 @@ const EditPostal = () => {
           disabled={!country}
         >
           {country
-            ? countries
+            ? DataCountries
                 .find(({ countryName }) => countryName === country)
                 .regions.map((region) => (
                   <MenuItem    InputProps={{
@@ -182,7 +187,7 @@ className={classes.buttonBlue}
                     >
                         ADD CLAIM
                     </Button>
-<Toaster  toastOptions={{duration: 1000}}/>
+
         </form>
       
       </Container> 

@@ -2,19 +2,19 @@ import React, { useState, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { useStyles } from "./styled";
 import { post } from "../../services/apiHandler.js";
-import { Fab, Button, Grid } from "@material-ui/core";
+import { Fab, Button } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import IconEdit from "../../Assets/svg/IconEdit";
 import Check from "../../Assets/svg/Check";
-import { useSelector,  useDispatch } from "react-redux";
-import toast, { Toaster } from 'react-hot-toast';
+import { useDispatch } from "react-redux";
+import { useToasts } from 'react-toast-notifications'
 
 export default function DinamycField({values,index}) {
-    const [isCredential] = useState(true);    
+   
     const classes = useStyles();
   const [data, setData] = useState(null);
   const dispatchUserData = useDispatch()
-
+  const { addToast } = useToasts()
 
 
  const credential = async () => {
@@ -32,11 +32,11 @@ export default function DinamycField({values,index}) {
 
     console.log(res.data);
    const payload = {value: `${values.value}`, id: `${values.id}`};
-    if(hasCredentials !== true){
-      payload.status = true
+    if(hasCredentials !== 'true'){
+      payload.status = 'true'
     }
     dispatchUserData({
-      type: 'update',
+      type: 'update-dynamic-field',
       payload 
     })
 
@@ -47,11 +47,12 @@ export default function DinamycField({values,index}) {
     useEffect(() => {
       if (data) {
         localStorage.setItem(`credential_${values.id}`, JSON.stringify(data));
-         toast.success('Verified credential');
+        addToast('Verified credential', { appearance: 'success',autoDismiss: true, autoDismissTimeout: 2000 });
+;
       }
 
 
-    }, [data]);
+    }, [data,addToast,values.id]);
 
 
 
@@ -90,7 +91,7 @@ const hasCredentials = localStorage.hasOwnProperty(`credential_${values.id}`) ||
 
               </div>
             )}
-   <Toaster  toastOptions={{duration: 3000,style:{fontSize: '1.6rem'}}}/>
+   
         </div>
       );
 }

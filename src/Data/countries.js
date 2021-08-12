@@ -1,5 +1,5 @@
 
-export default [{
+const DataCountries = [{
         "countryName": "Afghanistan",
         "countryShortCode": "AF",
         "regions": [{
@@ -18917,3 +18917,5 @@ export default [{
         ]
     }
 ]
+
+export default DataCountries

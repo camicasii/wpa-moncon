@@ -4,46 +4,48 @@ import { Container } from "@material-ui/core";
 import { useSelector } from 'react-redux'
 import IconUse from "../../Assets/svg/IconUse";
 import { Link } from "react-router-dom";
+import DemoField from "./DemoField";
 const Documents = () => {
   const classes = useStyles();
   const mobile = useSelector((state) => state.UserReducer.mobile)
-
+  const email = useSelector((state) => state.UserReducer.email)
+  const datebirth = useSelector((state) => state.UserReducer.datebirth)
+  const dinamycFields = useSelector((state) => state.UserReducer.dynamicFields);
+  const address = useSelector(
+    (state) => state.UserReducer.postal
+  );
 
 
   return (
-    <>
+    <div style={{marginBottom: '30px'}}>
+
       {
-        mobile.value !== '' ? 
+        email.status || mobile.status || datebirth.status  ? 
           (
   <Container>
 
-        {
-          mobile.status === false ? (
-  <div className={classes.contentWarning}>
-          <div style={{ marginLeft: "15px" }}>
-            <h1 className={classes.warningH1}>
-              Confirmation is needed
-            </h1>
-            <p  className={classes.warningP}>
-              Your data may be lost because you did not confirm the seed phrase.
-              We advise you to complete the registration.
-            </p>
-          </div>
-        </div>
-          ) : null
-        }
 
-
-      { mobile.value !== '' ? (
-        <div className={classes.proofContainer} style={{marginTop: '20px'}}>
-          <Link to="/documents/demo">
+    {
+    email.status === 'true' && <DemoField to="/documents/demo/email" path="email" title="Email" field="email"/>
+    } 
+    {
+    mobile.status === 'true' && <DemoField to="/documents/demo/mobile" path="mobile" title="Mobile Phone" field="phone"/>
+    } 
+    {
+    datebirth.status === 'true' && <DemoField to="/documents/demo/datebirth" path="datebirth" title="Date Birth" field="birthday"/>
+    }
+    {
+      address.status === 'true' &&
+        (
+ <div  className={classes.proofContainer} style={{marginTop: '20px'}}>
+          <Link to={`/documents/demo/postal`}>
           <h1 className={classes.proofTitle}>
             Proof Of ID Credential Demo
           </h1>
           <div className={classes.contentPersonal}>
             <Link
             
-              to="/documents/demo"
+              to={`/documents/demo/postal`}
               
               className={classes.fab}
             >
@@ -51,18 +53,58 @@ const Documents = () => {
             </Link>
             <div>
               <div  className={classes.proofSubtitle}>
-                Mobile Phone
+                Postal Adress 
               </div>
               <Link to="/" className={classes.link}>
-                {mobile.value}
+                {address.value.address}
               </Link>
             </div>
           </div>
           </Link>
         </div>
-          ) : null }
-      
 
+        )
+    }
+
+ 
+ 
+      
+ {dinamycFields.map((values, index) => { 
+   
+     return values.status === "true" && (
+    <div index={index}>
+  <div  className={classes.proofContainer} style={{marginTop: '20px'}}>
+          <Link to={`/documents/demo/field/${values.id}`}>
+          <h1 className={classes.proofTitle}>
+            Proof Of ID Credential Demo
+          </h1>
+          <div className={classes.contentPersonal}>
+            <Link
+            
+              to={`/documents/demo/field/${values.id}`}
+              
+              className={classes.fab}
+            >
+              <IconUse />
+            </Link>
+            <div>
+              <div  className={classes.proofSubtitle}>
+                {values.id} 
+              </div>
+              <Link to="/" className={classes.link}>
+                {values.value}
+              </Link>
+            </div>
+          </div>
+          </Link>
+        </div>
+
+     </div>
+  
+
+     )
+
+ })}
 
       
        
@@ -93,7 +135,7 @@ const Documents = () => {
 
 
       }
-        </>
+        </div>
   );
 };
 export default Documents;

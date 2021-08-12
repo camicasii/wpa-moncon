@@ -5,20 +5,25 @@ import { useStyles } from "./style";
 import { useHistory } from 'react-router';
 import ArrowLeft from "../../../Assets/svg/ArrowLeft";
 import { ValidatorForm, TextValidator} from 'react-material-ui-form-validator';
-import toast, { Toaster } from 'react-hot-toast';
+import { useToasts } from 'react-toast-notifications';
 const EditEmail = () => {
   const classes = useStyles();
+  const { addToast } = useToasts();
   const [email, setEmail ] = useState('');
   const history = useHistory();
   const dispatchUserData  = useDispatch();
   const emailValue = useSelector((state)=> state.UserReducer.email.value)
   const handleClick = (event) => {
      event.preventDefault();
-let filter = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+let filter = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/; /* eslint-disable-line */
     if(!filter.test(email)){
      console.log(email);
     } else {
-  dispatchUserData({
+  
+      if(localStorage.hasOwnProperty('credential_email'))
+ localStorage.removeItem("credential_email");
+      dispatchUserData({
       type: 'update',
       payload: {id: 'email', value: email },
     })
@@ -26,13 +31,14 @@ let filter = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[
  return history.push('/identity')
 
       },2500)
-   toast.success('Has been added successfully');
+
+      addToast('Has been added successfully', { appearance: 'success',autoDismiss: true, autoDismissTimeout: 2000 });
     }
     };
 
 useEffect(() => {
   setEmail(emailValue)
-}, [])
+}, [emailValue])
 
 
   const handleReturn = () => {
@@ -97,7 +103,7 @@ className={classes.buttonBlue}
                     >
                         ADD CLAIM
                     </Button>
-<Toaster  toastOptions={{duration: 1000}}/>
+
           </ValidatorForm>
 
      

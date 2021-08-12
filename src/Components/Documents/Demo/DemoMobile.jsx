@@ -5,9 +5,9 @@ import Fab from "@material-ui/core/Fab";
 import IconUse from "../../../Assets/svg/IconUse";
 import { Link } from "react-router-dom";
 import IconLeft from "../../../Assets/svg/IconLeft";
-import IconWarning from "../../../Assets/svg/IconWarning";
+
 import { useHistory } from "react-router-dom";
-const Demo = () => {
+const DemoMobile = () => {
   const classes = useStyles();
   const history = useHistory();
   const handleReturn = () => {
@@ -33,25 +33,7 @@ const Demo = () => {
         <h1 style={{ color: "#ffff" }}>Proof Of ID Credential Demo</h1>
       </div>
 
-      {mobile.status === false ? (
-   <div className={classes.contentWarningDemo}>
-        <div style={{ marginLeft: "15px", marginTop: "12px" }}>
-          <IconWarning />
-        </div>
-        <div style={{ marginLeft: "15px" }}>
-          <h1 className={classes.warningDemoH1}>
-            Confirmation is needed
-          </h1>
-          <p className={classes.warningDemoP}>
-            Your data may be lost because you did not confirm the seed phrase.
-            We advise you to complete the registration.
-          </p>
-        </div>
-      </div>
-
-      ) : null}
-   
-
+ 
       <h1 className={classes.titleH1}>Issued by</h1>
       <div style={{ marginTop: "15px" }} >
         <div className={classes.proofContainerWhite}>
@@ -91,4 +73,4 @@ const Demo = () => {
     </>
   );
 };
-export default Demo;
+export default DemoMobile;

@@ -8,7 +8,7 @@ import './App.css';
 import ScanReceive from './Components/ReadQrCode/ScanReceive';
 import ScanAuth from './Components/ReadQrCode/ScanAuth';
 import ScanShare from './Components/ReadQrCode/ScanShare';
-import toast, { Toaster } from 'react-hot-toast';
+
 import SwUpdater from './SwUpdater'
 const ReactLazyPreload = (importStatement) => {
   const Component = lazy(importStatement);
@@ -16,14 +16,17 @@ const ReactLazyPreload = (importStatement) => {
   return Component;
 };
 const EditField = ReactLazyPreload(() => import('./Components/Indentity/Edit/EditField')); 
-
+const DemoEmail = ReactLazyPreload(()=> import('./Components/Documents/Demo/DemoEmail'))
+const DemoPostal = ReactLazyPreload(()=> import('./Components/Documents/Demo/DemoPostal')) 
+const DemoDateBirth = ReactLazyPreload(()=> import('./Components/Documents/Demo/DemoDateBirth')) 
+const DemoDinamycs = ReactLazyPreload(()=> import('./Components/Documents/Demo/DemoDinamycs')) 
 const EditAdd = ReactLazyPreload(() => import('./Components/Indentity/Edit/Add')); 
 const Identity = ReactLazyPreload(() => import('./Components/Indentity/Indentity')); 
 const Documents = ReactLazyPreload(() => import('./Components/Documents'));
 const History = ReactLazyPreload(() => import('./Components/History'));
 const Settings = ReactLazyPreload(() => import('./Components/Settings/Settings'));
 const Scan = ReactLazyPreload(() => import('./Components/Scan')); 
-const Demo = ReactLazyPreload(() => import('./Components/Documents/Demo/Demo')); 
+const DemoMobile = ReactLazyPreload(() => import('./Components/Documents/Demo/DemoMobile')); 
 const EditName = ReactLazyPreload(() => import('./Components/Indentity/Edit/EditName'));
 const EditEmail = ReactLazyPreload(() => import('./Components/Indentity/Edit/EditEmail'));
 const EditMobile = ReactLazyPreload(() => import('./Components/Indentity/Edit/EditMobile'));
@@ -43,7 +46,7 @@ function App() {
         .getRegistrations()
         .then((regs) => regs.forEach((reg) => reg.update()));
     });
-  }, []);
+  }, [history]);
 
   const handleUpdateServiceWorker = () => {
     navigator.serviceWorker
@@ -67,7 +70,7 @@ function App() {
  
     <div>
   <div id='new-updates'>
-    <Toaster  toastOptions={{duration: 3000,style:{fontSize: '1.6rem'}}}/>
+
     <SwUpdater onClick={handleUpdateServiceWorker}/>     
   </div>
       <Switch>
@@ -127,12 +130,6 @@ function App() {
               <Documents/>
             </Suspense>
           </Route>
-
-          <Route exact path="/documents/demo" >
-            <Suspense fallback={<div>Loading...</div>}>
-              <Demo/>
-            </Suspense>
-          </Route>
        
           <Route exact path="/scan">
             <Suspense fallback={<div>Loading...</div>}>
@@ -172,7 +169,32 @@ function App() {
               <EditField/>
             </Suspense>
           </Route>
-       
+
+             <Route path="/documents/demo/field/:fieldId" >
+            <Suspense fallback={<div>Loading...</div>}>
+              <DemoDinamycs/>
+            </Suspense>
+          </Route>
+          <Route path="/documents/demo/email" >
+            <Suspense fallback={<div>Loading...</div>}>
+              <DemoEmail/>
+            </Suspense>
+          </Route>
+          <Route exact path="/documents/demo/mobile" >
+            <Suspense fallback={<div>Loading...</div>}>
+              <DemoMobile/>
+            </Suspense>
+          </Route>
+   <Route exact path="/documents/demo/datebirth" >
+            <Suspense fallback={<div>Loading...</div>}>
+              <DemoDateBirth/>
+            </Suspense>
+          </Route>
+  <Route exact path="/documents/demo/postal" >
+            <Suspense fallback={<div>Loading...</div>}>
+              <DemoPostal/>
+            </Suspense>
+          </Route>
         </ContextProvider>
       </Switch>
       

@@ -5,15 +5,15 @@ import { Container, TextField,Button } from "@material-ui/core";
 import { useStyles } from "./style";
 import ArrowLeft from "../../../Assets/svg/ArrowLeft";
 import { useParams } from 'react-router-dom';
-import toast, { Toaster } from 'react-hot-toast';
 
+import { useToasts } from 'react-toast-notifications'
 
 
 const EditField = () => {
 
  const dynamycFields = useSelector((state)=> state.UserReducer.dynamicFields);
   
-
+ const { addToast } = useToasts();
   const classes = useStyles();
   const history = useHistory();
   const [title, setTitle] = useState("");
@@ -31,20 +31,20 @@ const { fieldId } = useParams();
       payload: { 
       value,
       id: title.toString(),
-      status: '',
+
       }
     });
      setTimeout(()=>{
  return history.push('/identity')
 
       },2500)
-   toast.success('Has been added successfully');
+    addToast('Has been added successfully', { appearance: 'success',autoDismiss: true, autoDismissTimeout: 2000 });
   };
 
 useEffect(() => {
    setTitle(field.id)
    setValue(field.value)
-}, [])
+}, [field.id,field.value])
   const handleReturn = () => {
     if (history.length <= 2) {
       history.push("/identity");
@@ -108,7 +108,6 @@ className={classes.buttonBlue}
                     >
                         SAVE
                     </Button>
-    <Toaster  toastOptions={{duration: 1000}}/>
         </Container>
       </div>
     </>

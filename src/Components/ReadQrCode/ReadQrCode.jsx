@@ -1,26 +1,28 @@
-import { useState,useEffect,useRef } from "react";
-import { Grid } from "@material-ui/core";
+import { useState,useEffect } from "react";
+import { Grid, Typography } from "@material-ui/core";
 import { useStyles } from "./style";
 import QrReader from "react-qr-reader";
 import { useHistory } from "react-router-dom";
-import ScanReceive from "./ScanReceive";
+//import ScanReceive from "./ScanReceive";
 import IconLeft from "../../Assets/svg/IconLeft";
 import ScanShare from "./ScanShare";
-import toast, { Toaster } from 'react-hot-toast';
+import { useToasts } from 'react-toast-notifications';
 
 
 const ReadQRCode = ({socket}) => {
   const classes = useStyles();
   const [QrScan, setQrScan] = useState(false)
   const [QrResponse, setQrResponse] = useState({});  
+  const { addToast } = useToasts();
+  const history = useHistory();
   //this is the delay between each scan
   const delay = 400;
-  const [selfie] = useState(false);
+
   const handleError = err => {
-    //console.log(err);
-    alert(err);
+    addToast(err.message, { appearance: 'error',autoDismiss: true, autoDismissTimeout: 3000 })    
+
   };
-  const history = useHistory();
+
   const handleReturn = () => {
     if (history.length <= 2) {
       history.push("/documents");
@@ -30,34 +32,36 @@ const ReadQRCode = ({socket}) => {
   };
 
   const handleScan = data => {
-    try {
-      
+    try {      
     if (data) {
       console.log(data);
       const dataParse = JSON.parse(data)
       const validate = localStorage.hasOwnProperty(dataParse.request)
-      if(!validate) return alert('credential fail')      
-      setQrResponse(dataParse);           
+      if(!validate) throw 'Credential Fail';
+      addToast('Credential Fail', { appearance: 'error',autoDismiss: true, autoDismissTimeout: 4000 })    
+      setQrResponse(dataParse);  
+    addToast('Correct QR code', { appearance: 'success',autoDismiss: true, autoDismissTimeout: 3000 }); 
       return       
     }
   }catch(error){
     console.log(error.message);
+ addToast(error.message, { appearance: 'error',autoDismiss: true, autoDismissTimeout: 3000 })    
     setQrResponse({});           
   }
   }    
-  useEffect(() => {    
-    console.log();
+  
+  useEffect(() => {        
     if(Object.keys(QrResponse).length > 0)
     setQrScan(true)
+
   }, [QrResponse])
 
   return (
     <> 
    <Grid container justifyContent="center" className={classes.root}>
-      <Grid container justifyContent="center" className={classes.root}>      
+      <Grid container justifyContent="center" style={{ background: '#272727 !important'}}>      
         {!QrScan && (
-          <>
-          
+          <>          
   <div className={classes.contentMenu}>
         <div
           onClick={handleReturn}
@@ -68,29 +72,30 @@ const ReadQRCode = ({socket}) => {
 
     <h1 style={{ color: "#ffff", fontSize: '2.2rem' }}>Scan QR code</h1>
       </div>
+  <Grid container justifyContent="center"  className={classes.contentMenu_2}>
+           
+
+    <Typography style={{ color: "#ffff", fontSize: '2.2rem', fontWeight: 'normal !important' }}>To use Moncon Wallet go to the web to unlock on your computer</Typography>
+      </Grid>
             <div
               style={{
                 position: "relative",
                 width: "100%",
-                paddingTop: "180%"
+                paddingTop: "180%",
+   background: '#272727 !important',
               }}
-            >
-              <div className={classes.boxShadow}></div>
-              <div className={classes.boxtext}>
-                It's all automatic, just place your phone above the code
-              </div>
-              <div className={classes.container} />
-              
+            > 
               <QrReader
                 delay={delay}
                 className={classes.previewStyle}
                 onError={handleError}
                 onScan={handleScan}
-                facingMode="environment"
-            
+                facingMode="environment"           
                              />
+
             </div>
-            <Grid container style={{ height: "100px" }} />
+
+          
             
           </>
         )}

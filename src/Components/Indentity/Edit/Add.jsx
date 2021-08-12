@@ -4,9 +4,9 @@ import { useHistory } from "react-router-dom";
 import { Container, TextField,Button } from "@material-ui/core";
 import { useStyles } from "./style";
 import ArrowLeft from "../../../Assets/svg/ArrowLeft";
-import toast, { Toaster } from 'react-hot-toast';
+import { useToasts } from 'react-toast-notifications'
 const EditAdd = () => {
-
+ const { addToast } = useToasts();
   const classes = useStyles();
   const history = useHistory();
   const [title, setTitle] = useState("");
@@ -19,14 +19,14 @@ const EditAdd = () => {
       payload: { 
       value,
       id: title.toString().toLowerCase().trim().replace(/\s+/g,"").replace(" ","-"),
-      status: '',
+      status: 'false',
       }
     });
     setTimeout(()=>{
  return history.push('/identity')
 
       },2500)
-   toast.success('Has been added successfully');
+    addToast('Has been added successfully', { appearance: 'success',autoDismiss: true, autoDismissTimeout: 2000 });
 
   };
 
@@ -93,7 +93,7 @@ className={classes.buttonBlue}
                     >
                         SAVE
                     </Button>
-    <Toaster  toastOptions={{duration: 1500}}/>
+  
         </Container>
       </div>
     </>

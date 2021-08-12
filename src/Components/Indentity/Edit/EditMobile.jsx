@@ -5,11 +5,12 @@ import { useHistory } from 'react-router';
 import PhoneField from './CustomPhoneNumber'
 import { useStyles } from "./style";
 import ArrowLeft from "../../../Assets/svg/ArrowLeft";
-import toast, { Toaster } from 'react-hot-toast';
+import { useToasts } from 'react-toast-notifications'
 
 const EditMobile = () => {
   const classes = useStyles();
   const history = useHistory();
+ const { addToast } = useToasts();
   const [mobilePhone, setMobile ] = useState('');
   const dispatchUserData = useDispatch();
  const mobileValue = useSelector((state)=> state.UserReducer.mobile.value)
@@ -19,6 +20,8 @@ const EditMobile = () => {
     if(mobilePhone){
       payload.value = mobilePhone;
     }
+  if(localStorage.hasOwnProperty('credential_phone'))
+ localStorage.removeItem("credential_phone");
     dispatchUserData({
       type: 'update',
       payload,
@@ -27,12 +30,12 @@ const EditMobile = () => {
  return history.push('/identity')
 
       },2500)
-   toast.success('Has been added successfully');
+    addToast('Has been added successfully', { appearance: 'success',autoDismiss: true, autoDismissTimeout: 2000 });
   };
 
 useEffect(() => {
   setMobile(mobileValue)
-}, [])
+}, [mobileValue])
   const handleReturn = () => {
 
     if( history.length <=2 ) {
@@ -93,7 +96,6 @@ className={classes.buttonBlue}
                     >
                         ADD CLAIM
                     </Button>
-     <Toaster  toastOptions={{duration: 1000}}/>
         </Container>
       </div>
     </>

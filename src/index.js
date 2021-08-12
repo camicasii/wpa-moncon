@@ -7,6 +7,8 @@ import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 import {Provider} from 'react-redux'
+import { ToastProvider } from 'react-toast-notifications';
+
 import {store} from './redux/store'
 const theme = responsiveFontSizes(
   createTheme({
@@ -36,7 +38,9 @@ ReactDOM.render(
       <CssBaseline/>
       <BrowserRouter>
         <Provider store={store}>
-          <App/>
+          <ToastProvider autoDismissTimeout={2000}>
+           <App/>
+          </ToastProvider>
         </Provider>
     </BrowserRouter>
     </ThemeProvider>

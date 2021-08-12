@@ -1,11 +1,11 @@
 import { LS_USER_KEY } from "../../Const";
 
 const initialState = {
-  name: { id: "name", value: "", status: false },
-  lastName: { id: "lastName", value: "", status: false },
-  email: { id: "email", value: "", status: false },
-  mobile: { id: "mobile", value: "", status: false },
-  datebirth: { id: "datebirth", value: "", status: false },
+  name: { id: "name", value: "", status: 'false' },
+  lastName: { id: "lastName", value: "", status: 'false' },
+  email: { id: "email", value: "", status: 'false' },
+  mobile: { id: "mobile", value: "", status: 'false' },
+  datebirth: { id: "datebirth", value: "", status: 'false' },
   postal: {
     id: "postal",
     value: {
@@ -15,7 +15,7 @@ const initialState = {
       city: "",
       country: "",
     },
-    status: false,
+    status: 'false',
   },
   dynamicFields: [],
 };

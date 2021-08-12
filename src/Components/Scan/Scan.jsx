@@ -4,8 +4,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import {Grid, Button } from '@material-ui/core';
 import { useHistory } from "react-router-dom";
 import io from 'socket.io-client';
-
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 import IconLeft from "../../Assets/svg/IconLeft";
+import { useToasts } from 'react-toast-notifications'
 const useStyles = makeStyles((theme) => ({
   root: {
   flexGrow: 1,
@@ -51,8 +52,10 @@ button: {
 
 const Scan = (  ) =>{
   const socketRef = useRef()
+  const { addToast } = useToasts()
   const classes = useStyles();
-const [display, setDisplay] = useState(false)
+const [display, setDisplay] = useState(true)
+  const matches = useMediaQuery('(min-width:600px)');
   const history = useHistory();
   const handleReturn = () => {
     if (history.length <= 2) {
@@ -66,8 +69,6 @@ const [display, setDisplay] = useState(false)
     socketRef.current = io(process.env.REACT_APP_MONCON_URL_SOCKET);    
     socketRef.current.on('connect', () => {        
       console.log(socketRef.current.id);
-      
-      
     });
     
     return () => {
@@ -77,32 +78,15 @@ const [display, setDisplay] = useState(false)
     }
     
     
-  }, [])
-  
-  const handleScan2 = () => {      
-    let  data={
-      idProvider: "ClGLRW0zOt62BUywAAA5",
-      idUser: socketRef.current.id,
-      hostnama:"localhost",
-      request:"credential_birthday"
-      }  
-
-
-  const validate = localStorage.hasOwnProperty(data.request)
-
-  if(!validate) return alert('credential fail')
-  const credential = JSON.parse(localStorage.getItem(data.request))
-  data.credential =credential
-  
-  
-    
-  socketRef.current.emit('webCredentialRequest', data);
-
-};
+  }, [])  
 
   const handleClick = () => {
-    setDisplay(!display);
-  };
+    if(display === matches){
+      return   setDisplay(!display);
+    } else {
+      return addToast('Set the size of your browser smaller to use the scan', { appearance: 'info',autoDismiss: true, autoDismissTimeout: 6000 })
+    }
+    };
   return(
   <>
  <div className={classes.contentMenu}  style={{display: display ? 'none' : 'flex'}}>

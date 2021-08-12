@@ -7,11 +7,12 @@ import { Fab, Button, Grid } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import IconEdit from "../../Assets/svg/IconEdit";
 import Check from "../../Assets/svg/Check";
-
+import { useToasts } from 'react-toast-notifications'
 import Field from "./Field";
 import DinamycField from "./DinamycField";
 
 const Identity = () => {
+  const { addToast } = useToasts()
   const classes = useStyles();
   const dispatchUserData = useDispatch();
   const [data, setData] = useState(null);
@@ -22,37 +23,39 @@ const Identity = () => {
     (state) => state.UserReducer.postal.value.address
   );
   
-  const credential =async ()=>{
-    let credentialSubject={
-id:`did:moncon:${uuidv4()}`,
-credential:{
-  id:`did:moncon:${uuidv4()}`,    
-}
-}      
-credentialSubject.credential[address] = address
-const res = await post(credentialSubject)
-   let data = res.data;
+  const credential = async () => {
+    let credentialSubject = {
+      id:`did:moncon:${uuidv4()}`,
+      credential:{
+        id:`did:moncon:${uuidv4()}`,    
+      }
+    }
+    if(!address){
+      return addToast('Add a value to the identity', { appearance: 'error',autoDismiss: true, autoDismissTimeout: 4000 });
+    }
+    credentialSubject.credential[address] = address
+    const res = await post(credentialSubject)
+    let data = res.data;
     setData(data);
     console.log(res);
 
     console.log(res.data)
- const payload = {id: 'address',value: `${address}`};
-    if(hasCredentials !== true){
-      payload.status = true
+    const payload = {id: 'postal'};
+    if(hasCredentials !== 'true'){
+      payload.status = 'true'
     }
     dispatchUserData({
       type: 'update',
       payload 
     })
-
-
-} 
+  } 
 
     useEffect(() => {
       if (data) {
         localStorage.setItem(`credential_address`, JSON.stringify(data));
+ addToast('Verified credential', { appearance: 'success',autoDismiss: true, autoDismissTimeout: 2000 });
       }
-    }, [data]);
+    }, [data,addToast]);
 
 const hasCredentials = localStorage.hasOwnProperty(`credential_address`) || Boolean(data)
 

@@ -2,25 +2,28 @@ import React, { useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { useStyles } from "./styled";
 import { post } from "../../services/apiHandler.js";
-import { Fab, Button, Grid } from "@material-ui/core";
+import { Fab, Button} from "@material-ui/core";
 import { Link } from "react-router-dom";
 import IconEdit from "../../Assets/svg/IconEdit";
 import Check from "../../Assets/svg/Check";
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import toast, { Toaster } from 'react-hot-toast';
+import { useToasts } from 'react-toast-notifications'
 
 export default function Field({ to, path, title, field }) {
-  const [isCredential] = useState(true);
+
+  const { addToast } = useToasts()
   const [data, setData] = useState(null);
   const state = useSelector((state) => state.UserReducer[path].value);
   const id = useSelector((state) => state.UserReducer[path].id);
-  const [sellStatus, setSellStatus ] = useState('');
+  const [hasCredentials, sethasCredentials] = useState(localStorage.hasOwnProperty(`credential_${field}`))
+
   const dispatchUserData = useDispatch();
   const classes = useStyles();
 
   const credential = async () => {
-    let credentialSubject = {
+    if(state !== ''){
+   let credentialSubject = {
       id: `did:moncon:${uuidv4()}`,
       credential: {
         id: `did:moncon:${uuidv4()}`,
@@ -30,17 +33,22 @@ export default function Field({ to, path, title, field }) {
     const res = await post(credentialSubject);
     let data = res.data;
     setData(data);
-    console.log(res);
-
     console.log(res.data);
  const payload = {id: `${id}`,value: `${state}`};
+ 
+ localStorage.setItem(`credential_${field}`, JSON.stringify(data));
+ sethasCredentials(true)
     if(hasCredentials !== true){
-      payload.status = true
+      payload.status = 'true'
     }
     dispatchUserData({
       type: 'update',
       payload 
     })
+    } else {
+ addToast('Add a value to the identity', { appearance: 'error',autoDismiss: true, autoDismissTimeout: 4000 });
+    }
+ 
 
 
     //storage res data
@@ -49,15 +57,16 @@ export default function Field({ to, path, title, field }) {
     useEffect(() => {
       if (data) {
         localStorage.setItem(`credential_${field}`, JSON.stringify(data));
-   toast.success('Verified credential');
+ addToast('Verified credential', { appearance: 'success',autoDismiss: true, autoDismissTimeout: 2000 });
+
       }
 
 
-    }, [data]);
+    }, [data,addToast,field]);
 
 
 
-const hasCredentials = localStorage.hasOwnProperty(`credential_${field}`) || Boolean(data)
+
 
 
 
@@ -108,7 +117,7 @@ const hasCredentials = localStorage.hasOwnProperty(`credential_${field}`) || Boo
               </div>
 
             )}
-    <Toaster  toastOptions={{duration: 3000,style:{fontSize: '1.6rem'}}}/>
+
           </div>
         </div>
       </div>

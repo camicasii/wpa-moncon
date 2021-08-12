@@ -4,16 +4,20 @@ import { useStyles } from "./style";
 import { useHistory } from "react-router";
 import Fab from "@material-ui/core/Fab";
 import IconUse from ".././../Assets/svg/IconUse";
-import Link from "../Link";
+import { useToasts } from 'react-toast-notifications';
 
 import Check from "../../Assets/svg/Check";
 import IconEdit from "../../Assets/svg/IconEdit";
-import toast, { Toaster } from 'react-hot-toast';
+
 
 const ScanShare = ({ QrResponse,socket,data }) => {
   const classes = useStyles();
   const history = useHistory();
+  const { addToast } = useToasts();
+  
   const handleReturn = () => {
+    addToast('Deny', { appearance: 'error',autoDismiss: true, autoDismissTimeout: 3000 })    
+    
     if (history.length <= 2) {
       history.push("/identity");
     } else {
@@ -28,7 +32,8 @@ const ScanShare = ({ QrResponse,socket,data }) => {
   data.idUser=socket.current.id
   data.credential =credential
   socket.current.emit('webCredentialRequest', data);
-  
+  addToast('credential sent', { appearance: 'success',autoDismiss: true, autoDismissTimeout: 3000 });   
+
   return handleReturn()
   
 

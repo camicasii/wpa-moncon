@@ -4,9 +4,10 @@ import { Container, TextField, Button } from "@material-ui/core";
 import { useStyles } from "./style";
 import { useHistory } from 'react-router';
 import ArrowLeft from "../../../Assets/svg/ArrowLeft";
-import toast, { Toaster } from 'react-hot-toast';
+import { useToasts } from 'react-toast-notifications'
 const EditName = () => {
   const classes = useStyles();
+ const { addToast } = useToasts();
   const [name, setName ] = useState('');
   const [lastName, setLastName ] = useState('');
   const history = useHistory();
@@ -38,7 +39,7 @@ dispatchUserData({
  return history.push('/identity')
 
       },2500)
-   toast.success('Has been added successfully');
+      addToast('Has been added successfully', { appearance: 'success',autoDismiss: true, autoDismissTimeout: 2000 });
   };
 
 
@@ -106,8 +107,6 @@ className={classes.buttonBlue}
                     >
                         ADD CLAIM
                     </Button>
-<Toaster  toastOptions={{duration: 1000}}/>
-
         </Container>
       </div>
     </>

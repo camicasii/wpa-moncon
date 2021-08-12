@@ -9,7 +9,14 @@ export const useStyles = makeStyles((theme) => ({
     width: '60%',
     height: '60%',
     objectFit: 'cover',
+    background: '#272727 !important',
  zIndex: 0,
+     "& div": {
+       boxShadow: '#ffff 0px 0px 0px 5px inset !important' 
+    },
+    "& div:after": {
+       boxShadow: '#ffff 0px 0px 0px 5px inset !important' 
+    },
  "@media screen and (max-width: 800px)": {
   width: '100%',
     height: '130%',
@@ -20,6 +27,14 @@ export const useStyles = makeStyles((theme) => ({
     background: '#272727 !important',
     display: 'flex !important',
     width: '100% !important',
+
+  },
+  contentMenu_2:{
+    padding: '20px 20px',
+    background: '#343434 !important',
+    display: 'flex !important',
+    width: '100% !important',
+    textAlign: 'center',
 
   },
 fab:{
