@@ -30,7 +30,7 @@ let filter = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[
       setTimeout(()=>{
  return history.push('/identity')
 
-      },2500)
+      },500)
 
       addToast('Has been added successfully', { appearance: 'success',autoDismiss: true, autoDismissTimeout: 2000 });
     }
